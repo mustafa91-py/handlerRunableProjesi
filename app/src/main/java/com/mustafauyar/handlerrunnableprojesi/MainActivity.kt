@@ -1,4 +1,5 @@
 package com.mustafauyar.handlerrunnableprojesi
+import android.content.Intent
 import com.mustafauyar.handlerrunnableprojesi.databinding.ActivityMainBinding
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -49,5 +50,9 @@ class MainActivity : AppCompatActivity() {
         handler.removeCallbacks(runnable) // postu durdurduk
         numara = 0
         binding.textView.text = "sayaç : $numara"
+    }
+    fun goSide(view: View){
+        intent = Intent(applicationContext,SideOneActivity::class.java)
+        startActivity(intent)
     }
 }
