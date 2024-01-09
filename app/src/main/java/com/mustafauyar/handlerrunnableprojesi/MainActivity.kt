@@ -16,19 +16,34 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initRunnable()
     }
-    fun baslat (view:View){
-        numara = 0
-        runnable = object : Runnable {// interface aynı soyut sınıf gibi kullanıloyor object ile birlikte
-            override fun run() { // zorunlu kullanım
-                binding.textView.text = "sayaç : $numara" // numarayı yazdır
-                numara = numara +1 //numarayı birer birer arttır
-                handler.postDelayed(runnable,1000)//döngüyü başlat
-                // await gibi çalışıyor ayrı bir process gibi tkinter after metoduna benziyor ama farklı prensip olarak
+    private fun initRunnable(){
+        runnable = object : Runnable {
+            override fun run() {
+                binding.textView.text = "sayaç $numara"
+                numara ++
+                handler.postDelayed(this,1000)
             }
-        }
-        handler.post(runnable) // elealdığımız çalıştırabiliri post ettik
 
+        }
+    }
+//    fun baslat (view:View){
+//        numara = 0
+//        runnable = object : Runnable {// interface aynı soyut sınıf gibi kullanıloyor object ile birlikte
+//            override fun run() { // zorunlu kullanım
+//                binding.textView.text = "sayaç : $numara" // numarayı yazdır
+//                numara = numara +1 //numarayı birer birer arttır
+//                handler.postDelayed(runnable,1000)//döngüyü başlat
+//                // await gibi çalışıyor ayrı bir process gibi tkinter after metoduna benziyor ama farklı prensip olarak
+//            }
+//        }
+//        handler.post(runnable) // elealdığımız çalıştırabiliri post ettik
+    fun baslat(view: View){
+        handler.removeCallbacks(runnable)
+        numara = 0
+        binding.textView.text ="sayaç :$numara"
+        handler.post(runnable)
     }
     fun durdur (view: View){
         handler.removeCallbacks(runnable) // postu durdurduk
