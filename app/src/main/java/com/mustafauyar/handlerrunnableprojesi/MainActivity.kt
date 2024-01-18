@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 
 class MainActivity : AppCompatActivity() {
@@ -19,11 +20,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initRunnable()
     }
+
+    override fun onStop() {
+        super.onStop()
+//        handler.removeCallbacks(runnable)
+        Log.d("kayıt onstop","onstop")
+    }
     private fun initRunnable(){
         runnable = object : Runnable {
             override fun run() {
                 binding.textView.text = "sayaç $numara"
                 numara ++
+                Log.d("kayıt initRunneble","sayac : $numara")
+
                 handler.postDelayed(this,1000)
             }
 
@@ -52,7 +61,9 @@ class MainActivity : AppCompatActivity() {
         binding.textView.text = "sayaç : $numara"
     }
     fun goSide(view: View){
+        handler.removeCallbacks(runnable)
         intent = Intent(applicationContext,SideOneActivity::class.java)
+        intent.putExtra("sayacVerisi",numara)
         startActivity(intent)
     }
 }
